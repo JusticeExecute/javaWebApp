@@ -25,15 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(AppConfiguration.class)
 @ExtendWith(MockitoExtension.class)
 class EmployeeControllerTest {
+    private static ObjectMapper mapper = new ObjectMapper();
     @InjectMocks
     EmployeeController employeeController;
-
     @Mock
     EmployeeService employeeService;
-
     private MockMvc mockMvc;
-
-    private static ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
     public void setup() {
@@ -44,7 +41,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void testAddEmployee() throws Exception {
+    void testAddEmployee() throws Exception {
         Employee employee = new Employee(99L, "Alex", Gender.MALE);
         Mockito.when(employeeService.newEmployee(ArgumentMatchers.any())).thenReturn(employee);
         String json = mapper.writeValueAsString(employee);

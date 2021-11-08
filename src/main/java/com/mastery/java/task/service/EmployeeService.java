@@ -2,7 +2,6 @@ package com.mastery.java.task.service;
 
 import com.mastery.java.task.dao.EmployeeDao;
 import com.mastery.java.task.dto.Employee;
-import com.mastery.java.task.dto.Gender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,22 +30,22 @@ public class EmployeeService {
         return employee;
     }
 
-    public boolean deleteEmployee(Long employee_id) {
-        if (employeeDao.getEmployee(employee_id) == null) {
-            throw new IllegalStateException("Employee with ID = " + employee_id + "doesn't exists");
+    public boolean deleteEmployee(Long employeeId) {
+        if (employeeDao.getEmployee(employeeId) == null) {
+            throw new IllegalStateException("Employee with ID = " + employeeId + "doesn't exists");
         }
-        employeeDao.delete(employee_id);
+        employeeDao.delete(employeeId);
         return true;
     }
 
-    public Employee updateEmployee(Long employee_id, String first_name, Gender gender) {
-        Employee employee = employeeDao.getEmployee(employee_id);
+    public Employee updateEmployee(Long employeeId, Employee employeeToUpdate) {
+        Employee employee = employeeDao.getEmployee(employeeId);
         if (employee == null) {
-            throw new IllegalStateException("Employee with ID = " + employee_id + "doesn't exists");
+            throw new IllegalStateException("Employee with ID = " + employeeId + "doesn't exists");
         }
-        employeeDao.update(employee_id, first_name, gender);
-        employee.setFirstName(first_name);
-        employee.setGender(gender);
+        employeeDao.update(employeeId, employeeToUpdate);
+        employee.setFirstName(employeeToUpdate.getFirstName());
+        employee.setGender(employeeToUpdate.getGender());
         return employee;
     }
 }

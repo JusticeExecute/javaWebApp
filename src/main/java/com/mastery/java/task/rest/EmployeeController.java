@@ -1,7 +1,6 @@
 package com.mastery.java.task.rest;
 
 import com.mastery.java.task.dto.Employee;
-import com.mastery.java.task.dto.Gender;
 import com.mastery.java.task.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +24,9 @@ public class EmployeeController {
         return employeeService.getEmployees();
     }
 
-    @GetMapping(path = "{employee_id}")
-    public Employee getEmployee(@PathVariable("employee_id") Long employee_id) {
-        return employeeService.getEmployeeById(employee_id);
+    @GetMapping(path = "{employeeId}")
+    public Employee getEmployee(@PathVariable("employeeId") Long employeeId) {
+        return employeeService.getEmployeeById(employeeId);
     }
 
     @PostMapping
@@ -36,18 +35,17 @@ public class EmployeeController {
         return new ResponseEntity<>(employee1, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "{employee_id}")
-    public ResponseEntity<Long> deleteEmployee(@PathVariable("employee_id") Long employee_id){
-        employeeService.deleteEmployee(employee_id);
+    @DeleteMapping(path = "{employeeId}")
+    public ResponseEntity<Long> deleteEmployee(@PathVariable("employeeId") Long employeeId) {
+        employeeService.deleteEmployee(employeeId);
 
-        return new ResponseEntity<>(employee_id, HttpStatus.OK);
+        return new ResponseEntity<>(employeeId, HttpStatus.OK);
     }
 
-    @PutMapping(path = "{employee_id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable("employee_id") Long employee_id,
-                               @RequestParam String first_name,
-                               @RequestParam Gender gender){
-        Employee employee = employeeService.updateEmployee(employee_id, first_name, gender);
+    @PutMapping(path = "{employeeId}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable("employeeId") Long employeeId,
+                                                   @RequestBody Employee employeeToUpdate) {
+        Employee employee = employeeService.updateEmployee(employeeId, employeeToUpdate);
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 }

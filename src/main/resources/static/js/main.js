@@ -188,16 +188,17 @@ function fire_ajax_create() {
 
 function fire_ajax_update() {
 
+    var update = {}
+    update["firstName"] = $("#employee_first_name").val();
+    update["gender"] = $("#employee_gender").val().toUpperCase();
+
     $("#btn-update").prop("disabled", true);
 
         $.ajax({
             type: "PUT",
             contentType: "application/json",
-            url: "/api/v1/employee/" + $("#employee_id").val()
-                                                 + "?first_name="
-                                                 + $("#employee_first_name").val()
-                                                 + "&gender="
-                                                 + $("#employee_gender").val().toUpperCase(),
+            url: "/api/v1/employee/" + $("#employee_id").val(),
+            data: JSON.stringify(update),
             dataType: 'json',
             cache: false,
             timeout: 600000,

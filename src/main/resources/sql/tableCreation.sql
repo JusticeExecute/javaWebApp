@@ -4,6 +4,6 @@ CREATE TABLE employee (
     last_name VARCHAR(255),
     department_id INT,
     job_title VARCHAR(255),
-    gender INT,
+    gender VARCHAR(255),
     date_of_birth DATE
 );
