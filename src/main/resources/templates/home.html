@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Spring Boot ajax example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="container" style="min-height: 500px">
+
+    <div class="starter-template">
+
+        <form class="form-horizontal" id="show-all-form">
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" id="bth-show-all"
+                            class="btn btn-primary btn-lg">Show all employees
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="bth-create"
+                        class="btn btn-primary btn-lg">Create employee
+                </button>
+                <button type="submit" id="bth-update"
+                        class="btn btn-primary btn-lg">Update employee
+                </button>
+                <button type="submit" id="bth-delete"
+                        class="btn btn-primary btn-lg">Delete employee
+                </button>
+                <button type="submit" id="bth-search"
+                        class="btn btn-primary btn-lg">Search
+                </button>
+            </div>
+        </div>
+
+        <div id="feedback"></div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    document.getElementById("bth-create").onclick = function () {
+        location.href = "http://localhost:8080/create";
+    };
+    document.getElementById("bth-update").onclick = function () {
+        location.href = "http://localhost:8080/update";
+    };
+    document.getElementById("bth-delete").onclick = function () {
+        location.href = "http://localhost:8080/delete";
+    };
+    document.getElementById("bth-search").onclick = function () {
+        location.href = "http://localhost:8080/search";
+    };
+</script>
+<script type="text/javascript"
+        src="webjars/jquery/2.2.4/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
