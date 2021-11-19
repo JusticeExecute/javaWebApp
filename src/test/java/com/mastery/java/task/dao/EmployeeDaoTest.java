@@ -3,18 +3,17 @@ package com.mastery.java.task.dao;
 import com.mastery.java.task.config.AppConfiguration;
 import com.mastery.java.task.dto.Employee;
 import com.mastery.java.task.dto.Gender;
-import org.junit.Assert;
+import junit.framework.Assert;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest(classes = EmployeeDaoTest.class)
+//@SpringBootTest(classes = EmployeeDaoTest.class)
 @Import(AppConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 class EmployeeDaoTest {
@@ -28,7 +27,7 @@ class EmployeeDaoTest {
         Employee employee = new Employee(9L, "Test user", Gender.FEMALE);
         employeeDao.create(employee);
 
-        Assert.assertEquals(employee, employeeDao.getEmployee(employee.getEmployeeId()));
+        Assertions.assertEquals(employee, employeeDao.getEmployee(employee.getEmployeeId()));
     }
 
     @Test
