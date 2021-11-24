@@ -17,7 +17,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
 
-//@SpringBootApplication
 @Configuration
 @ComponentScan(basePackages = "com.mastery.java.task")
 @EnableWebMvc
