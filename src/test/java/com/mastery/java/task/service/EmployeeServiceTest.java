@@ -1,9 +1,9 @@
 package com.mastery.java.task.service;
 
-import com.mastery.java.task.config.AppConfiguration;
-import com.mastery.java.task.dao.EmployeeDao;
+import com.mastery.java.task.App;
 import com.mastery.java.task.dto.Employee;
 import com.mastery.java.task.dto.Gender;
+import com.mastery.java.task.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = EmployeeServiceTest.class)
-@Import(AppConfiguration.class)
+@Import(App.class)
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
 
@@ -27,15 +27,15 @@ public class EmployeeServiceTest {
     EmployeeService employeeService;
 
     @Mock
-    EmployeeDao employeeDao;
+    EmployeeRepository employeeRepository;
 
     @Test
     public void testFindAll() {
         List<Employee> employees = Arrays.asList(
-                new Employee(1L, "Alex", Gender.MALE),
-                new Employee(2L, "Lex", Gender.MALE));
+                new Employee(1L, "Alex", "Vasilko", Gender.MALE, 22),
+                new Employee(2L, "Lex", "Raketnik", Gender.MALE, 22));
 
-        when(employeeDao.listEmployees()).thenReturn(employees);
+        when(employeeRepository.findAll()).thenReturn(employees);
 
         List<Employee> result = employeeService.getEmployees();
 
@@ -44,9 +44,9 @@ public class EmployeeServiceTest {
 
     @Test
     public void testFindById() {
-        Employee employee = new Employee(2L, "Lex", Gender.MALE);
+        Employee employee = new Employee(2L, "Lex", "Lutor", Gender.MALE, 22);
 
-        when(employeeDao.getEmployee(employee.getEmployeeId())).thenReturn(employee);
+        when(employeeRepository.getById(employee.getEmployeeId())).thenReturn(employee);
 
         assertThat(employeeService.getEmployeeById(employee.getEmployeeId())).isEqualTo(employee);
     }

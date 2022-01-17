@@ -4,7 +4,7 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        fire_ajax_show_by_id();
+        fire_ajax_search();
 
     });
 
@@ -42,14 +42,20 @@ $(document).ready(function () {
 
 });
 
-function fire_ajax_show_by_id() {
+function fire_ajax_search() {
 
-    $("#btn-search-by-id").prop("disabled", true);
+    $("#btn-search").prop("disabled", true);
+    var search = {}
+    search["firstName"] = $("#employee_first_name").val();
+    search["lastName"] = $("#employee_last_name").val();
 
     $.ajax({
         type: "GET",
         contentType: "application/json",
-        url: "/api/v1/employee/" + $("#employee_id").val(),
+        url: "/api/v1/employees/search" + "?firstName="
+                                        + $("#employee_first_name").val()
+                                        + "&lastName="
+                                        + $("#employee_last_name").val(),
         dataType: 'json',
         cache: false,
         timeout: 600000,
@@ -70,7 +76,7 @@ function fire_ajax_show_by_id() {
             $('#feedback').html(json);
 
             console.log("ERROR : ", e);
-            $("#btn-search-by-id").prop("disabled", false);
+            $("#btn-search").prop("disabled", false);
 
         }
     });
@@ -84,7 +90,7 @@ function fire_ajax_show_all() {
     $.ajax({
         type: "GET",
         contentType: "application/json",
-        url: "/api/v1/employee",
+        url: "/api/v1/employees",
         dataType: 'json',
         cache: false,
         timeout: 600000,
@@ -117,7 +123,7 @@ function fire_ajax_delete_by_id() {
         $.ajax({
             type: "DELETE",
             contentType: "application/json",
-            url: "/api/v1/employee/" + $("#employee_id").val(),
+            url: "/api/v1/employees/" + $("#employee_id").val(),
             dataType: 'json',
             cache: false,
             timeout: 600000,
@@ -148,8 +154,8 @@ function fire_ajax_delete_by_id() {
 function fire_ajax_create() {
 
     var create = {}
-    create["employeeId"] = $("#employee_id").val();
     create["firstName"] = $("#employee_first_name").val();
+    create["lastName"] = $("#employee_last_name").val();
     create["gender"] = $("#employee_gender").val().toUpperCase();
 
     $("#btn-create").prop("disabled", true);
@@ -157,7 +163,7 @@ function fire_ajax_create() {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/api/v1/employee",
+            url: "/api/v1/employees",
             data: JSON.stringify(create),
             dataType: 'json',
             cache: false,
@@ -197,7 +203,7 @@ function fire_ajax_update() {
         $.ajax({
             type: "PUT",
             contentType: "application/json",
-            url: "/api/v1/employee/" + $("#employee_id").val(),
+            url: "/api/v1/employees/" + $("#employee_id").val(),
             data: JSON.stringify(update),
             dataType: 'json',
             cache: false,
