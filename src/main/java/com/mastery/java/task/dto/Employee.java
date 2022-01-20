@@ -1,7 +1,14 @@
 package com.mastery.java.task.dto;
 
 
+import com.mastery.java.task.validator.Adult;
+import com.mastery.java.task.validator.EnumNamePattern;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -11,15 +18,24 @@ public class Employee {
     @SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
     @Column(name = "employee_id", unique = true, nullable = false)
+    @ApiModelProperty(notes = "The unique id of employee")
     private Long employeeId;
     @Column(name = "first_name")
+    @ApiModelProperty(notes = "Employee first name")
+    @NotBlank
     private String firstName;
     @Column(name = "last_name")
+    @ApiModelProperty(notes = "Employee last name")
     private String lastName;
     @Column(name = "gender")
+    @ApiModelProperty(notes = "Employee gender could only be male or female")
     @Enumerated(EnumType.STRING)
+    @NotNull
+    @EnumNamePattern(regexp = "MALE|FEMALE")
     private Gender gender;
     @Column(name = "age")
+    @ApiModelProperty(notes = "Employee age")
+    @Adult
     private int age;
 
     public Employee() {

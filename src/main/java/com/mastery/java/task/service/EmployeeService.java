@@ -52,6 +52,7 @@ public class EmployeeService {
         }
         employee.setFirstName(employeeToUpdate.getFirstName());
         employee.setGender(employeeToUpdate.getGender());
+        employee.setAge(employeeToUpdate.getAge());
         employeeRepository.save(employee);
         log.debug("Employ saved to DD");
         return employee;

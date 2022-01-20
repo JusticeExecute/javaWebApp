@@ -157,6 +157,7 @@ function fire_ajax_create() {
     create["firstName"] = $("#employee_first_name").val();
     create["lastName"] = $("#employee_last_name").val();
     create["gender"] = $("#employee_gender").val().toUpperCase();
+    create["age"] = $("#employee_age").val();
 
     $("#btn-create").prop("disabled", true);
 
@@ -197,6 +198,7 @@ function fire_ajax_update() {
     var update = {}
     update["firstName"] = $("#employee_first_name").val();
     update["gender"] = $("#employee_gender").val().toUpperCase();
+    update["age"] = $("#employee_age").val();
 
     $("#btn-update").prop("disabled", true);
 
