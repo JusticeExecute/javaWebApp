@@ -26,8 +26,8 @@ class EmployeeDaoTest {
     @Transactional
     @Rollback(true)
     void testCreateEmployee() {
-        Employee employee = new Employee(9L, "Test", "user", Gender.FEMALE, 22);
-        employeeRepository.save(employee);
+        Employee employee = new Employee("Test", "user", Gender.FEMALE, 22);
+        employee = employeeRepository.save(employee);
 
         Assert.assertEquals(employee, employeeRepository.getById(employee.getEmployeeId()));
     }
@@ -36,8 +36,8 @@ class EmployeeDaoTest {
     @Transactional
     @Rollback(true)
     void testGetEmployeeById() {
-        Employee employee = new Employee(9L, "Test", "user", Gender.FEMALE, 22);
-        employeeRepository.save(employee);
+        Employee employee = new Employee("Test", "user", Gender.FEMALE, 22);
+        employee = employeeRepository.save(employee);
 
         Assertions.assertEquals(employee, employeeRepository.getById(employee.getEmployeeId()));
     }
@@ -46,11 +46,11 @@ class EmployeeDaoTest {
     @Transactional
     @Rollback(true)
     void testUpdateEmployee() {
-        Employee employee = new Employee(9L, "Test", "user", Gender.FEMALE, 22);
-        employeeRepository.save(employee);
+        Employee employee = new Employee("Test", "user", Gender.FEMALE, 22);
+        employee = employeeRepository.save(employee);
         employee.setFirstName("Test user updated");
         employee.setGender(Gender.MALE);
-        employeeRepository.save(employee);
+        employee = employeeRepository.save(employee);
 
         Assertions.assertEquals(employee, employeeRepository.getById(employee.getEmployeeId()));
     }
@@ -59,10 +59,10 @@ class EmployeeDaoTest {
     @Transactional
     @Rollback(true)
     void testDeleteEmployee() {
-        Employee employee = new Employee(9L, "Test", "user", Gender.FEMALE, 22);
-        employeeRepository.save(employee);
+        Employee employee = new Employee("Test", "user", Gender.FEMALE, 22);
+        employee = employeeRepository.save(employee);
         employeeRepository.deleteById(employee.getEmployeeId());
 
-        Assertions.assertNull(employeeRepository.getById(employee.getEmployeeId()));
+        Assertions.assertFalse(employeeRepository.existsById(employee.getEmployeeId()));
     }
 }

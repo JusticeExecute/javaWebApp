@@ -46,6 +46,7 @@ public class EmployeeServiceTest {
     public void testFindById() {
         Employee employee = new Employee(2L, "Lex", "Lutor", Gender.MALE, 22);
 
+        when(employeeRepository.existsById(employee.getEmployeeId())).thenReturn(true);
         when(employeeRepository.getById(employee.getEmployeeId())).thenReturn(employee);
 
         assertThat(employeeService.getEmployeeById(employee.getEmployeeId())).isEqualTo(employee);

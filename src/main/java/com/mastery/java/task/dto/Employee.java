@@ -42,7 +42,11 @@ public class Employee {
     }
 
     public Employee(Long employeeId, String firstName, String lastName, Gender gender, int age) {
+        this(firstName, lastName, gender, age);
         this.employeeId = employeeId;
+    }
+
+    public Employee(String firstName, String lastName, Gender gender, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;

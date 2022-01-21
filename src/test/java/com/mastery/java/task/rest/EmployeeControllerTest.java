@@ -46,7 +46,7 @@ class EmployeeControllerTest {
         Mockito.when(employeeService.newEmployee(ArgumentMatchers.any())).thenReturn(employee);
         String json = mapper.writeValueAsString(employee);
         this.mockMvc.perform(post("http://localhost:8080/api/v1/employees").contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
-                        .content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
+                        .content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.employeeId", Matchers.equalTo(99)))
                 .andExpect(jsonPath("$.firstName", Matchers.equalTo("Alex")))
                 .andExpect(jsonPath("$.gender", Matchers.equalTo("MALE")));
