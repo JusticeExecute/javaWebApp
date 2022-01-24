@@ -3,6 +3,7 @@ CREATE TABLE employee (
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     department_id INT,
+    age INT,
     job_title VARCHAR(255),
     gender VARCHAR(255),
     date_of_birth DATE
