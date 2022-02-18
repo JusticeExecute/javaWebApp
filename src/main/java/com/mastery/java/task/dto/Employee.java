@@ -6,9 +6,9 @@ import com.mastery.java.task.validator.EnumNamePattern;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -22,20 +22,23 @@ public class Employee {
     private Long employeeId;
     @Column(name = "first_name")
     @ApiModelProperty(notes = "Employee first name")
-    @NotBlank
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 15, message = "Name should be between 2 and 15 characters")
     private String firstName;
     @Column(name = "last_name")
     @ApiModelProperty(notes = "Employee last name")
+    @NotEmpty(message = "Lastname should not be empty")
+    @Size(min = 2, max = 15, message = "Lastname should be between 2 and 15 characters")
     private String lastName;
     @Column(name = "gender")
     @ApiModelProperty(notes = "Employee gender could only be male or female")
     @Enumerated(EnumType.STRING)
-    @NotNull
-    @EnumNamePattern(regexp = "MALE|FEMALE")
+    @EnumNamePattern(anyOf = {Gender.MALE, Gender.FEMALE})
     private Gender gender;
     @Column(name = "age")
     @ApiModelProperty(notes = "Employee age")
-    @Adult
+    @Max(150)
+    @Adult(message = "Age should be greater than 17")
     private int age;
 
     public Employee() {

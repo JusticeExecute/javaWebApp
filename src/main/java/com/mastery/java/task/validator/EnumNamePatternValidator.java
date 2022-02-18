@@ -1,30 +1,21 @@
 package com.mastery.java.task.validator;
 
+import com.mastery.java.task.dto.Gender;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.Arrays;
 
-public class EnumNamePatternValidator implements ConstraintValidator<EnumNamePattern, Enum<?>> {
-    private Pattern pattern;
+public class EnumNamePatternValidator implements ConstraintValidator<EnumNamePattern, Gender> {
+    private Gender[] subset;
 
     @Override
-    public void initialize(EnumNamePattern annotation) {
-        try {
-            pattern = Pattern.compile(annotation.regexp());
-        } catch (PatternSyntaxException e) {
-            throw new IllegalArgumentException("Given regex is invalid", e);
-        }
+    public void initialize(EnumNamePattern constraint) {
+        this.subset = constraint.anyOf();
     }
 
     @Override
-    public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return true;
-        }
-
-        Matcher m = pattern.matcher(value.name());
-        return m.matches();
+    public boolean isValid(Gender value, ConstraintValidatorContext context) {
+        return value == null || Arrays.asList(subset).contains(value);
     }
 }

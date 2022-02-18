@@ -52,10 +52,10 @@ function fire_ajax_search() {
     $.ajax({
         type: "GET",
         contentType: "application/json",
-        url: "/api/v1/employees/search" + "?firstName="
-                                        + $("#employee_first_name").val()
-                                        + "&lastName="
-                                        + $("#employee_last_name").val(),
+        url: "/api/v1/employees/" + "?firstName="
+                                  + $("#employee_first_name").val()
+                                  + "&lastName="
+                                  + $("#employee_last_name").val(),
         dataType: 'json',
         cache: false,
         timeout: 600000,
@@ -197,6 +197,7 @@ function fire_ajax_update() {
 
     var update = {}
     update["firstName"] = $("#employee_first_name").val();
+    update["lastName"] = $("#employee_last_name").val();
     update["gender"] = $("#employee_gender").val().toUpperCase();
     update["age"] = $("#employee_age").val();
 

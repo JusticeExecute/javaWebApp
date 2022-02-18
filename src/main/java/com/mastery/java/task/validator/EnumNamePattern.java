@@ -1,5 +1,7 @@
 package com.mastery.java.task.validator;
 
+import com.mastery.java.task.dto.Gender;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;
@@ -14,8 +16,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = EnumNamePatternValidator.class)
 public @interface EnumNamePattern {
-    String regexp();
-    String message() default "must match \"{regexp}\"";
+    Gender[] anyOf();
+    String message() default "must be any of {anyOf}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
