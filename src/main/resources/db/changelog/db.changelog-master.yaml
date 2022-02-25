@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-1.yaml
+  - changeSet:
+      id: 1
+      author: me
+      changes:
+        - createTable:
+            tableName: employee
+            columns:
+              - column:
+                  name: employee_id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(50)
+              - column:
+                  name: last_name
+                  type: varchar(50)
+              - column:
+                  name: department_id
+                  type: BIGINT
+              - column:
+                  name: age
+                  type: INT
+              - column:
+                  name: job_title
+                  type: varchar(50)
+              - column:
+                  name: gender
+                  type: varchar(50)
+              - column:
+                  name: date_of_birth
+                  type: date
+
+  - changeSet:
+      id: 2
+      author: me
+      comment: "Insert initial data"
+      changes:
+        - insert:
+            tableName: employee
+            columns:
+              - column:
+                  name: first_name
+                  value: "Alex"
+              - column:
+                  name: last_name
+                  value: "Markov"
+              - column:
+                  name: department_id
+                  value: 1
+              - column:
+                  name: age
+                  value: 21
+              - column:
+                  name: job_title
+                  value: "Worker"
+              - column:
+                  name: gender
+                  value: "MALE"
+              - column:
+                  name: date_of_birth
+                  value: "1990-10-13"
+        - insert:
+            tableName: employee
+            columns:
+              - column:
+                  name: first_name
+                  value: "Mary"
+              - column:
+                  name: last_name
+                  value: "Serikova"
+              - column:
+                  name: department_id
+                  value: 1
+              - column:
+                  name: age
+                  value: 21
+              - column:
+                  name: job_title
+                  value: "Writer"
+              - column:
+                  name: gender
+                  value: "FEMALE"
+              - column:
+                  name: date_of_birth
+                  value: "1995-01-22"
+      rollback:
+        - delete:
+            tableName: employee
+            where: first_name in ('Alex', 'Mary')

@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  app:
+    image: 'web_app:latest'
+    build:
+      context: .
+    container_name: app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/employeedb
+      - SPRING_ACTIVEMQ_BROKER-URL=tcp://jms:61616
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - jms
+
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=employeedb
+    ports:
+      - "5432:5432"
+
+  jms:
+    image: 'rmohr/activemq:latest'
+    container_name: jms
+    ports:
+      - "61616:61616"
+      - "8161:8161"
