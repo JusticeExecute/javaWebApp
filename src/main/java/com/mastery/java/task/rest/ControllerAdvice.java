@@ -4,20 +4,28 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.mastery.java.task.exception.MyServiceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ControllerAdvice {
     protected static final Logger log = LoggerFactory.getLogger(ControllerAdvice.class);
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public String databaseError(HttpServletRequest req, Exception ex) {
+        log.error("Error - request: {} raised {}", req.getRequestURL(), ex);
+        return "Error";
+    }
 
     @ExceptionHandler(MyServiceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -26,30 +34,20 @@ public class ControllerAdvice {
         return ex.getMessage();
     }
 
-    @ExceptionHandler(value = {ConstraintViolationException.class})
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public String pathVariableValidation(HttpServletRequest req, ConstraintViolationException ex) {
-        Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
-        StringBuilder strBuilder = new StringBuilder();
-        for (ConstraintViolation<?> violation : violations) {
-            strBuilder.append(violation.getMessage() + "\n");
-        }
-        log.error("Path variable validation - request: {} raised {} ", req.getRequestURL(), strBuilder, ex);
-        return strBuilder.toString();
+    public String pathVariableValidation(HttpServletRequest req, MethodArgumentNotValidException ex) {
+        log.error("Path variable validation - request: {} raised ", req.getRequestURL(), ex);
+        return ex.getBindingResult().getFieldErrors().stream().map(fieldError ->
+                String.format("Invalid %s value submitted for %s", fieldError.getRejectedValue(), fieldError.getField())
+        ).collect(Collectors.toList()).toString();
     }
 
-    @ExceptionHandler(InvalidFormatException.class)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public String enumValidationException(HttpServletRequest req, InvalidFormatException ex) {
         log.error("Incorrect data in field - request: {} raised {}", req.getRequestURL(), ex);
         return "Incorrect data in field. " + ex.getOriginalMessage();
-    }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public String databaseError(HttpServletRequest req, Exception ex) {
-        log.error("Error - request: {} raised {}", req.getRequestURL(), ex);
-        return "Error";
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -59,7 +57,7 @@ public class ControllerAdvice {
         return "Request endpoint doesn't exists";
     }
 
-    @ExceptionHandler(NumberFormatException.class)
+    @ExceptionHandler(TypeMismatchException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public String numberFormatError(HttpServletRequest req, Exception ex) {
         log.error("Number format - request: {} raised {}", req.getRequestURL(), ex);
